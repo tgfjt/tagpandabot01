@@ -1,13 +1,13 @@
 # coding: utf-8
 
-require 'sinatra'
+require "sinatra"
+require "json"
 
-require 'rubygems'
-require 'json'
-require 'cgi'
-
-json = JSON.parse(CGI.new['json'])
-print 'Content-Type: text/plain\n\n'
-json['events'].each do |e|
-  puts e['message']['text']
+post "/hi" do
+  j = JSON.parse(request.body.string)
+  j["events"].map{ |e|
+    if e["message"]
+      "Hi, #{e["message"]["nickname"]}!"
+    end
+  }.compact.join("\n")+"\n"
 end
