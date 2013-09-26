@@ -8,6 +8,27 @@ get '/' do
   'Here is tagpandabot01'
 end
 
+# -------- LASTFM --------
+module LASTFM
+  def bestSong(name)
+    url = 'http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&format=json&artist='
+    apikey = '&api_key=' + '8b8d4214382f1f7c31873276e3a60d39'
+    limit = '&limit=' + '1'
+
+    uri = URI.parse(url + name + apikey + limit)
+    json = Net::HTTP.get(uri)
+    result = JSON.parse(json)
+
+    songname = result['toptracks']['track']['name']
+    imageL = result['toptracks']['track']['image'][3]['#text']
+
+    message = "the best song of \"#{artist}\" is... \"#{songname}\"" + "\n"
+    return message + imageL
+  end
+
+  module_function:bestSong
+end
+
 post '/' do
   content_type :text
   json = JSON.parse(request.body.read)
@@ -17,20 +38,7 @@ post '/' do
       if /^!bestsong/ =~ text
         text =  text.strip.split(/[\s　]/)
         artist = text[1]
-
-        url = 'http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&format=json&artist='
-        apikey = '&api_key=8b8d4214382f1f7c31873276e3a60d39'
-        limit = '&limit=1'
-
-        uri = URI.parse(url + artist + apikey + limit)
-        json = Net::HTTP.get(uri)
-        result = JSON.parse(json)
-
-        songname = result['toptracks']['track']['name']
-        imageL = result['toptracks']['track']['image'][3]['#text']
-
-        message = "the best song of \"#{artist}\" is... \"#{songname}\"" + "\n"
-        message + imageL
+        return LASTFM.bestSong(artist)
       end
     end
   }.join
