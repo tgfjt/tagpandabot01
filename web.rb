@@ -12,7 +12,7 @@ post '/' do
   json = JSON.parse(request.body.read)
   json["events"].map{ |e|
     if e["message"]
-      "Hi, #{e["message"]["nickname"]}!"
+      "#{e["message"]["text"]}!, by #{e["message"]["nickname"]}!"
     end
   }.compact.join("\n")+"\n"
 end
