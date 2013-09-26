@@ -2,7 +2,6 @@
 
 require 'sinatra'
 require 'json'
-require 'execjs'
 
 get '/' do
   'Here is tagpandabot01'
@@ -14,8 +13,8 @@ post '/' do
   json['events'].select { |e| e['message'] }.map { |e|
     text = e['message']['text']
     if e['message']
-      if /^!JS/ =~ text
-        ExecJS.eval text
+      if /^!tagpanda/ =~ text
+        'tagpanda: ' + text + '!'
       end
     end
   }.join
