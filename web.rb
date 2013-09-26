@@ -15,5 +15,5 @@ post '/' do
     if e['message']
       text + '!'
     end
-  }.compact.join('\n') + '\n'
+  }.join
 end
