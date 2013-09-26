@@ -14,7 +14,7 @@ post '/' do
   json['events'].select { |e| e['message'] }.map { |e|
     text = e['message']['text']
     if e['message']
-      if /^!JS/ =~ m
+      if /^!JS/ =~ text
         ExecJS.eval text
       end
     end
