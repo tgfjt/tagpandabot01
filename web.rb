@@ -22,7 +22,7 @@ module LASTFM
     songname = result['toptracks']['track']['name']
     imageL = result['toptracks']['track']['image'][3]['#text']
 
-    message = "the best song of \"#{artist}\" is... \"#{songname}\"" + "\n"
+    message = "the best song of \"#{name}\" is... \"#{songname}\"" + "\n"
     return message + imageL
   end
 
