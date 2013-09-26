@@ -14,7 +14,8 @@ post '/' do
     text = e['message']['text']
     if e['message']
       if /^!tagpanda/ =~ text
-        'tagpanda: ' + text + '!'
+        text =  text.strip.split(/[\s　]/)
+        'tagpanda says: ' + text[1] + '!'
       end
     end
   }.join
